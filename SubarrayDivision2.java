@@ -23,13 +23,16 @@ class Result {
      */
 
     public static int birthday(List<Integer> s, int d, int m) {
-        int count = 0;
         int n = s.size();
+        int[] partialSums = new int[n];
+        partialSums[0] = s.get(0);
+        for (int i = 1; i < n; i++) {
+            partialSums[i] = partialSums[i-1] + s.get(i);
+        }
+        int count = 0;
         for (int i = 0; i <= n-m; i++) {
-            int sum = 0;
-            for (int j = i; j < i+m; j++) {
-                sum += s.get(j);
-            }
+            int j = i+m-1;
+            int sum = (i == 0) ? partialSums[j] : (partialSums[j] - partialSums[i-1]);
             if (sum == d) count++;
         }
         return count;
