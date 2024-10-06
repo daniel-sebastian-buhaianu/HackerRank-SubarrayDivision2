@@ -10,34 +10,33 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-class Result {
-
-    /*
-     * Complete the 'birthday' function below.
-     *
-     * The function is expected to return an INTEGER.
-     * The function accepts following parameters:
-     *  1. INTEGER_ARRAY s
-     *  2. INTEGER d
-     *  3. INTEGER m
-     */
-
-    public static int birthday(List<Integer> s, int d, int m) {
-        int n = s.size();
-        int[] partialSums = new int[n];
-        partialSums[0] = s.get(0);
-        for (int i = 1; i < n; i++) {
-            partialSums[i] = partialSums[i-1] + s.get(i);
-        }
+class Result
+{
+    public static int birthday(List<Integer> s, int d, int m)
+    {
         int count = 0;
-        for (int i = 0; i <= n-m; i++) {
-            int j = i+m-1;
-            int sum = (i == 0) ? partialSums[j] : (partialSums[j] - partialSums[i-1]);
-            if (sum == d) count++;
+        
+        int currentSum = 0;
+        for (int i = 0; i < m; i++)
+        {
+            currentSum += s.get(i);
         }
+        if (currentSum == d)
+        {
+            count++;
+        }
+        
+        for (int i = m, n = s.size(); i < n; i++)
+        {
+            currentSum += s.get(i) - s.get(i - m);
+            if (currentSum == d)
+            {
+                count++;
+            }
+        }
+        
         return count;
     }
-
 }
 
 public class Solution {
